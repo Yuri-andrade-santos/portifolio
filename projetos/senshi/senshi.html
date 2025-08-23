@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobre | Projeto Senshi</title>
+    
+    <link rel="stylesheet" href="styles.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+
+    <header class="header">
+        <a href="../../index.html" class="logo">Yuri Andrade.</a>
+        <i class='bx bx-menu' id="menu-icon"></i>
+        <nav class="navbar">
+            <a href="../../index.html#inicio">Início</a>
+            <a href="../../index.html#sobre">Sobre</a>
+            <a href="../../index.html#projetos">Projetos</a>
+            <a href="../../index.html#contato">Contato</a>
+        </nav>
+    </header>
+
+    <section class="content-section">
+        <h2>Visão Geral do Projeto</h2>
+        <p>O "Senshi Fotografia" é um site de portfólio moderno construído com tecnologias de ponta. Ele serve tanto como uma vitrine pública para seus trabalhos de fotografia quanto como uma plataforma de gerenciamento de conteúdo privada para você, o administrador.</p>
+        
+        <h3>Tecnologias e Arquitetura</h3>
+        <ul>
+            <li><strong>Framework:</strong> Next.js 14+ com App Router. Isso permite uma renderização híbrida (servidor e cliente) e o uso de funcionalidades modernas como Server Actions.</li>
+            <li><strong>Interface do Usuário (UI):</strong> React com a biblioteca de componentes shadcn/ui e estilização feita com Tailwind CSS, resultando em um design limpo, responsivo e facilmente customizável.</li>
+            <li><strong>Lógica de Backend:</strong> Implementada através de Next.js Server Actions, simplificando a comunicação entre cliente e servidor sem necessidade de uma API REST tradicional.</li>
+            <li><strong>Armazenamento de Dados:</strong> Atualmente, o projeto utiliza sistema de arquivos local para persistir dados (JSON) e armazenar as imagens enviadas.</li>
+            <li><strong>Sistema de Upload:</strong> O upload de imagens é realizado utilizando Form Data (multipart/form-data), garantindo envio eficiente de arquivos.</li>
+            <li><strong>Evolução Planejada:</strong> Na próxima atualização, o sistema de upload será migrado para um banco de dados MySQL, trazendo maior robustez e escalabilidade.</li>
+        </ul>
+
+        <h3>Estrutura de Diretórios (Inferida)</h3>
+        <pre><code>/
+├── src/
+│   ├── app/
+│   │   ├── api/
+│   │   │   └── images/[...slug]/route.ts  # Rota para servir imagens
+│   │   ├── (public)/
+│   │   │   ├── layout.tsx                 # Layout principal (header, footer)
+│   │   │   ├── page.tsx                   # Página Inicial (Home)
+│   │   │   └── portfolio/
+│   │   │       └── page.tsx               # Página do Portfólio
+│   │   ├── (admin)/
+│   │   │   ├── manage-content/
+│   │   │   │   └── page.tsx               # Página de Gerenciamento
+│   │   │   └── login/
+│   │   │       └── page.tsx               # Página de Login
+│   │   └── layout.tsx                     # Layout raiz
+│   │
+│   ├── components/
+│   │   ├── ui/                            # Componentes do shadcn/ui
+│   │   ├── Header.tsx                     # Cabeçalho
+│   │   ├── Footer.tsx                     # Rodapé
+│   │   ├── ContactForm.tsx                # Formulário de Contato (WhatsApp)
+│   │   └── ...
+│   │
+│   ├── lib/
+│   │   ├── actions.ts                     # Server Actions
+│   │   ├── auth.ts                        # Autenticação
+│   │   ├── data.ts                        # Leitura/Escrita JSON
+│   │   └── utils.ts                       # Funções utilitárias
+│   │
+│   └── data/
+│       └── portfolio.json                 # Armazenamento de dados atual
+│
+├── public/
+│   └── ... (imagens estáticas, favicon, etc.)
+│
+└── .env.local                             # Variáveis de ambiente</code></pre>
+
+        <h3>Análise Detalhada das Funcionalidades</h3>
+
+        <h4>1. Páginas Públicas (src/app/(public)/)</h4>
+        <ul>
+            <li><strong>Home (page.tsx):</strong> seções principais (Herói, Sobre Mim, Depoimentos, Portfólio).</li>
+            <li><strong>Contato:</strong> formulário que gera link direto para WhatsApp usando react-hook-form + zod.</li>
+            <li><strong>Portfólio (portfolio/page.tsx):</strong> galerias com filtro por categoria (Tabs), layout tipo masonry e modal para visualização ampliada.</li>
+        </ul>
+
+        <h4>2. Área Administrativa (src/app/(admin)/)</h4>
+        <ul>
+            <li><strong>Login:</strong> formulário simples, autenticação via Server Action.</li>
+            <li><strong>Gerenciamento (manage-content/page.tsx):</strong></li>
+            <ul>
+                <li>Editar Home (título, subtítulo, imagem).</li>
+                <li>Editar "Sobre Mim" (texto + imagem).</li>
+                <li>Gerenciar Galerias: criar categorias, fazer upload de fotos via Form Data, validação de limite (50MB), editar ou remover fotos/categorias.</li>
+                <li>Gerenciar Depoimentos: upload de imagens (prints), com opções de edição e remoção.</li>
+            </ul>
+        </ul>
+
+        <h4>3. Lógica do Servidor (src/lib/)</h4>
+        <ul>
+            <li><strong>actions.ts:</strong> funções async marcadas com "use server" (addCategory, removePhoto, updateHeroContent, login, etc.).</li>
+            <li><strong>data.ts:</strong> leitura/escrita em portfolio.json.</li>
+            <li><strong>Upload de Imagens:</strong> Recebido via Form Data (multipart/form-data), salvo no servidor como arquivo físico (.png, .webp, etc.), e o caminho é registrado no JSON.</li>
+            <li><strong>api/images/[...slug]/route.ts:</strong> serve as imagens do diretório privado, sem expor o caminho real.</li>
+        </ul>
+
+        <div class="gallery">
+            <img src="cam.png" alt="Imagem 1 do site Senshi">
+            <img src="cam2.png" alt="Imagem 2 do site Senshi">
+        </div>
+
+        <div style="text-align: center; margin-top: 4rem;">
+             <a href="../../index.html#projetos" class="btn">Voltar aos Projetos</a>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>&copy; 2025 Yuri Andrade. Todos os direitos reservados.</p>
+    </footer>
+
+    <script src="../../script.js"></script>
+</body>
+</html>
